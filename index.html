@@ -18,21 +18,57 @@
 
 <body>
     <div class="app-container">
-        <!-- Login Screen -->
-        <section id="login-screen" class="screen active">
+        <!-- Auth Screen -->
+        <section id="auth-screen" class="screen active">
             <div class="particles"></div>
-            <div class="login-content">
+            <div class="auth-content">
                 <div class="logo">
                     <i class="fa-solid fa-shield-cat"></i>
                     <h1>ROYAL GUARD</h1>
                     <p>SYSTEMS</p>
                 </div>
-                <div class="biometric-scanner">
-                    <div class="scan-line"></div>
-                    <i class="fa-solid fa-fingerprint"></i>
+
+                <!-- Login Form -->
+                <div id="login-form" class="auth-form active">
+                    <h2>כניסה למערכת</h2>
+                    <div class="input-group">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="login-email" placeholder="דוא״ל" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="login-password" placeholder="סיסמה" required>
+                    </div>
+                    <p class="error-message" id="login-error"></p>
+                    <button id="login-btn" class="glass-btn">כניסה</button>
+                    <p class="auth-switch">אין לך חשבון? <a href="#" id="show-signup">הרשם עכשיו</a></p>
                 </div>
-                <p class="status-text">מזהה משתמש...</p>
-                <button id="biometric-btn" class="glass-btn">כניסה מאובטחת</button>
+
+                <!-- Signup Form -->
+                <div id="signup-form" class="auth-form hidden">
+                    <h2>הרשמה למערכת</h2>
+                    <div class="input-group">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" id="signup-name" placeholder="שם מלא" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-phone"></i>
+                        <input type="tel" id="signup-phone" placeholder="טלפון" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="signup-email" placeholder="דוא״ל" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="signup-password" placeholder="סיסמה (מינימום 6 תווים)" required>
+                    </div>
+                    <p class="error-message" id="signup-error"></p>
+                    <button id="signup-btn" class="glass-btn">הרשמה</button>
+                    <p class="auth-switch">כבר יש לך חשבון? <a href="#" id="show-login">התחבר</a></p>
+                </div>
+
+                <p class="status-text" id="auth-status"></p>
             </div>
         </section>
 
@@ -49,13 +85,15 @@
                 </div>
 
                 <nav class="main-nav">
-                    <button class="nav-btn" data-target="dashboard-view">דשבורד</button>
-                    <button class="nav-btn active" data-target="pricing-view">חבילות שירות</button>
+                    <button class="nav-btn active" data-target="dashboard-view">דשבורד</button>
+                    <button class="nav-btn" data-target="pricing-view">חבילות שירות</button>
+                    <button class="nav-btn" data-target="admin-view" id="admin-nav-btn" style="display: none;">מנהל</button>
                 </nav>
 
                 <div class="system-status">
                     <span class="status-indicator online"></span>
-                    מערכת פעילה
+                    <span id="user-plan">CORE</span>
+                    <button id="logout-btn" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i></button>
                 </div>
             </header>
 
@@ -209,10 +247,102 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Admin Dashboard View -->
+                <div id="admin-view" class="view-section hidden">
+                    <div class="admin-container">
+                        <div class="admin-header">
+                            <h2><i class="fa-solid fa-user-shield"></i> דשבורד מנהל</h2>
+                            <p>ניהול משתמשים, מנויים ונכסים</p>
+                        </div>
+
+                        <div class="admin-grid">
+                            <!-- Stats Overview -->
+                            <div class="admin-card stats-card">
+                                <h3><i class="fa-solid fa-chart-line"></i> סטטיסטיקות</h3>
+                                <div class="stats-grid">
+                                    <div class="stat-item">
+                                        <div class="stat-value" id="total-users">0</div>
+                                        <div class="stat-label">משתמשים רשומים</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value" id="total-properties">0</div>
+                                        <div class="stat-label">נכסים פעילים</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value" id="total-events">0</div>
+                                        <div class="stat-label">אירועים היום</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value" id="active-subscriptions">0</div>
+                                        <div class="stat-label">מנויים פעילים</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Users Management -->
+                            <div class="admin-card users-card">
+                                <h3><i class="fa-solid fa-users"></i> משתמשים אחרונים</h3>
+                                <div class="users-list" id="admin-users-list">
+                                    <p class="loading-text">טוען נתונים...</p>
+                                </div>
+                            </div>
+
+                            <!-- Subscription Plans -->
+                            <div class="admin-card plans-card">
+                                <h3><i class="fa-solid fa-dollar-sign"></i> התפלגות מנויים</h3>
+                                <div class="plans-breakdown">
+                                    <div class="plan-stat">
+                                        <span class="plan-name">CORE</span>
+                                        <span class="plan-count" id="core-count">0</span>
+                                    </div>
+                                    <div class="plan-stat">
+                                        <span class="plan-name">SIGNATURE</span>
+                                        <span class="plan-count" id="signature-count">0</span>
+                                    </div>
+                                    <div class="plan-stat">
+                                        <span class="plan-name">ELITE</span>
+                                        <span class="plan-count" id="elite-count">0</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Recent Events -->
+                            <div class="admin-card events-card">
+                                <h3><i class="fa-solid fa-bell"></i> אירועים אחרונים</h3>
+                                <div class="events-list" id="admin-events-list">
+                                    <p class="loading-text">טוען אירועים...</p>
+                                </div>
+                            </div>
+
+                            <!-- System Health -->
+                            <div class="admin-card health-card">
+                                <h3><i class="fa-solid fa-heart-pulse"></i> בריאות המערכת</h3>
+                                <div class="health-items">
+                                    <div class="health-item">
+                                        <i class="fa-solid fa-database"></i>
+                                        <span>מסד נתונים</span>
+                                        <span class="health-status online">תקין</span>
+                                    </div>
+                                    <div class="health-item">
+                                        <i class="fa-solid fa-video"></i>
+                                        <span>מצלמות</span>
+                                        <span class="health-status online" id="cameras-status">תקין</span>
+                                    </div>
+                                    <div class="health-item">
+                                        <i class="fa-solid fa-wifi"></i>
+                                        <span>חיבור</span>
+                                        <span class="health-status online">תקין</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </main>
         </section>
     </div>
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 
 </html>
