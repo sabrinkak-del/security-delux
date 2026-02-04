@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מערכת אבטחה רויאל גארד | Royal Guard Security</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Heebo:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Login Screen -->
+        <section id="login-screen" class="screen active">
+            <div class="luxury-overlay"></div>
+            <div class="login-content">
+                <div class="logo">
+                    <i class="fa-solid fa-shield-cat"></i>
+                    <h1>ROYAL GUARD</h1>
+                    <p>SYSTEMS</p>
+                </div>
+                <div class="biometric-scanner">
+                    <div class="scan-line"></div>
+                    <i class="fa-solid fa-fingerprint"></i>
+                </div>
+                <p class="status-text">מזהה משתמש...</p>
+                <button id="biometric-btn" class="glass-btn">כניסה מאובטחת</button>
+            </div>
+        </section>
+
+        <!-- Main Dashboard -->
+        <section id="dashboard-screen" class="screen hidden">
+            <header class="top-bar">
+                <div class="user-info">
+                    <img src="https://ui-avatars.com/api/?name=Mr+Millionaire&background=D4AF37&color=000" alt="User"
+                        class="avatar">
+                    <div class="details">
+                        <span class="greeting">ברוך הבא,</span>
+                        <span class="username">אדון כהן</span>
+                    </div>
+                </div>
+
+                <nav class="main-nav">
+                    <button class="nav-btn" data-target="dashboard-view">דשבורד</button>
+                    <button class="nav-btn active" data-target="pricing-view">חבילות שירות</button>
+                </nav>
+
+                <div class="system-status">
+                    <span class="status-indicator online"></span>
+                    מערכת פעילה
+                </div>
+            </header>
+
+            <main class="content-area">
+                <!-- Dashboard View -->
+                <div id="dashboard-view" class="view-section hidden">
+                    <div class="dashboard-grid">
+                        <!-- Gate Control -->
+                        <div class="card gate-control">
+                            <div class="card-header">
+                                <h2><i class="fa-solid fa-torii-gate"></i> שער ראשי</h2>
+                                <span id="gate-status" class="status-badge closed">סגור</span>
+                            </div>
+                            <div class="gate-visual">
+                                <div class="gate-left"></div>
+                                <div class="gate-right"></div>
+                            </div>
+                            <div class="controls">
+                                <button id="btn-open" class="action-btn">פתח שער</button>
+                                <button id="btn-close" class="action-btn">סגור שער</button>
+                            </div>
+                        </div>
+
+                        <!-- Camera Feeds -->
+                        <div class="card cameras">
+                            <div class="card-header">
+                                <h2><i class="fa-solid fa-video"></i> מצלמות אבטחה</h2>
+                                <span class="live-badge">LIVE</span>
+                            </div>
+                            <div class="camera-grid">
+                                <div class="cam-feed">
+                                    <span class="cam-label">כניסה ראשית</span>
+                                    <div class="rec-dot"></div>
+                                </div>
+                                <div class="cam-feed">
+                                    <span class="cam-label">חניון תת-קרקעי</span>
+                                    <div class="rec-dot"></div>
+                                </div>
+                                <div class="cam-feed">
+                                    <span class="cam-label">בריכה</span>
+                                    <div class="rec-dot"></div>
+                                </div>
+                                <div class="cam-feed">
+                                    <span class="cam-label">כספת</span>
+                                    <div class="rec-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sensors & Alerts -->
+                        <div class="card sensors">
+                            <div class="card-header">
+                                <h2><i class="fa-solid fa-wave-square"></i> חיישנים</h2>
+                            </div>
+                            <ul class="sensor-list">
+                                <li class="sensor-item secure">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                    <span>גדר היקפית</span>
+                                    <span class="state">מאובטח</span>
+                                </li>
+                                <li class="sensor-item secure">
+                                    <i class="fa-solid fa-door-closed"></i>
+                                    <span>דלתות כניסה</span>
+                                    <span class="state">נעול</span>
+                                </li>
+                                <li class="sensor-item warning">
+                                    <i class="fa-solid fa-car"></i>
+                                    <span>חניון אורחים</span>
+                                    <span class="state">תנועה זוהתה</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Recent Activity -->
+                        <div class="card activity">
+                            <div class="card-header">
+                                <h2><i class="fa-solid fa-list-ul"></i> יומן אירועים</h2>
+                            </div>
+                            <ul class="log-list" id="log-list">
+                                <!-- Filled by JS -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pricing View -->
+                <div id="pricing-view" class="view-section hidden">
+                    <div class="pricing-container">
+                        <div class="pricing-header">
+                            <h2>תוכניות אבטחה פרימיום</h2>
+                            <p>בחר את רמת ההגנה המתאימה לך</p>
+                        </div>
+                        <div class="pricing-grid">
+                            <!-- CORE -->
+                            <div class="pricing-card">
+                                <div class="card-title">
+                                    <i class="fa-solid fa-shield"></i>
+                                    <h3>CORE</h3>
+                                </div>
+                                <div class="price">
+                                    <span class="currency">₪</span>149<span class="period">/ חודש</span>
+                                </div>
+                                <ul class="features">
+                                    <li><i class="fa-solid fa-check"></i> ניטור AI בסיסי</li>
+                                    <li><i class="fa-solid fa-check"></i> גישה לאפליקציה</li>
+                                    <li><i class="fa-solid fa-check"></i> התראות חכמות</li>
+                                    <li><i class="fa-solid fa-check"></i> משתמש אחד</li>
+                                </ul>
+                                <button class="glass-btn select-plan">בחר תוכנית</button>
+                            </div>
+
+                            <!-- SIGNATURE -->
+                            <div class="pricing-card featured">
+                                <div class="card-title">
+                                    <i class="fa-solid fa-fingerprint"></i>
+                                    <h3>SIGNATURE</h3>
+                                </div>
+                                <div class="price">
+                                    <span class="currency">₪</span>299<span class="period">/ חודש</span>
+                                </div>
+                                <ul class="features">
+                                    <li><i class="fa-solid fa-check"></i> <strong>הכל ב-CORE</strong></li>
+                                    <li><i class="fa-solid fa-check"></i> זיהוי פנים</li>
+                                    <li><i class="fa-solid fa-check"></i> דוחות חכמים</li>
+                                    <li><i class="fa-solid fa-check"></i> עד 5 משתמשים</li>
+                                </ul>
+                                <button class="glass-btn select-plan primary">בחר תוכנית</button>
+                            </div>
+
+                            <!-- ELITE -->
+                            <div class="pricing-card">
+                                <div class="card-title">
+                                    <i class="fa-solid fa-crown"></i>
+                                    <h3>ELITE</h3>
+                                </div>
+                                <div class="price">
+                                    <span class="currency">₪</span>499<span class="period">/ חודש</span>
+                                </div>
+                                <ul class="features">
+                                    <li><i class="fa-solid fa-check"></i> <strong>הכל ב-SIGNATURE</strong></li>
+                                    <li><i class="fa-solid fa-check"></i> Panic Mode</li>
+                                    <li><i class="fa-solid fa-check"></i> אינטגרציה לבית חכם</li>
+                                    <li><i class="fa-solid fa-check"></i> תמיכה 24/7 VIP</li>
+                                </ul>
+                                <button class="glass-btn select-plan">בחר תוכנית</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </section>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
