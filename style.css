@@ -45,12 +45,32 @@ html {
 #auth-screen {
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100%;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 2rem 0;
     background: radial-gradient(circle, #0f0f0f 0%, #000000 100%);
     z-index: 100;
     position: relative;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#auth-screen::-webkit-scrollbar {
+    width: 8px;
+}
+
+#auth-screen::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+#auth-screen::-webkit-scrollbar-thumb {
+    background: var(--gold);
+    border-radius: 10px;
+}
+
+#auth-screen::-webkit-scrollbar-thumb:hover {
+    background: #e5c158;
 }
 
 .particles {
@@ -81,6 +101,9 @@ html {
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
     width: 450px;
     max-width: 90%;
+    margin: auto 0;
+    z-index: 10;
+    position: relative;
 }
 
 .auth-form {
