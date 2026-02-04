@@ -172,4 +172,43 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial Logs
     addLog("מערכת הופעלה מחדש");
     addLog("בדיקת חיישנים הושלמה");
+
+    // --- Camera Animation Effects ---
+    const cameras = document.querySelectorAll('.cam-feed');
+    cameras.forEach((cam, index) => {
+        const scanOverlay = cam.querySelector('.scan-overlay');
+        if (scanOverlay) {
+            scanOverlay.style.animationDelay = `${index * 0.7}s`;
+        }
+    });
+
+    // --- Sensor Status Animation ---
+    const sensorItems = document.querySelectorAll('.sensor-item');
+    setInterval(() => {
+        if (Math.random() > 0.85 && dashboardScreen.classList.contains('active')) {
+            const randomSensor = sensorItems[Math.floor(Math.random() * sensorItems.length)];
+            randomSensor.style.transform = 'scale(1.02)';
+            randomSensor.style.boxShadow = '0 0 15px rgba(212, 175, 55, 0.2)';
+
+            setTimeout(() => {
+                randomSensor.style.transform = 'scale(1)';
+                randomSensor.style.boxShadow = 'none';
+            }, 800);
+        }
+    }, 5000);
+
+    // --- Add glow effect to gate visual ---
+    const gateLeft = document.querySelector('.gate-left');
+    const gateRight = document.querySelector('.gate-right');
+
+    setInterval(() => {
+        if (isGateOpen) {
+            const intensity = 0.3 + Math.random() * 0.2;
+            gateLeft.style.boxShadow = `0 0 30px rgba(48, 207, 85, ${intensity})`;
+            gateRight.style.boxShadow = `0 0 30px rgba(48, 207, 85, ${intensity})`;
+        } else {
+            gateLeft.style.boxShadow = '0 0 20px rgba(0, 0, 0, 0.8)';
+            gateRight.style.boxShadow = '0 0 20px rgba(0, 0, 0, 0.8)';
+        }
+    }, 1000);
 });
